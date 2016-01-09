@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/zujko/CSHLDAP-js/issues"
   },
-  "homepage": "https://github.com/zujko/CSHLDAP-js#readme"
+  "homepage": "https://github.com/zujko/CSHLDAP-js#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
 }
