@@ -20,6 +20,10 @@
     "url": "https://github.com/zujko/CSHLDAP-js/issues"
   },
   "homepage": "https://github.com/zujko/CSHLDAP-js#readme",
+  "dependencies": {
+    "ldapjs": "1.0.0",
+    "bl": "1.0.0"
+  },
   "devDependencies": {
     "chai": "^3.4.1",
     "mocha": "^2.3.4"
