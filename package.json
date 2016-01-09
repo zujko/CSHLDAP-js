@@ -1,0 +1,23 @@
+{
+  "name": "cshldap-js",
+  "version": "1.0.0",
+  "description": "Module to make interfacing with CSH LDAP simple.",
+  "main": "cshldap.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zujko/CSHLDAP-js.git"
+  },
+  "keywords": [
+    "CSH",
+    "LDAP"
+  ],
+  "author": "Peter Zujko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zujko/CSHLDAP-js/issues"
+  },
+  "homepage": "https://github.com/zujko/CSHLDAP-js#readme"
+}
