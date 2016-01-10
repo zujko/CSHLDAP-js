@@ -46,7 +46,17 @@ describe('Member',function() {
     cshldap.member('zujko',function(err,data) {
       if(err) throw err;
       data.length.should.equal(1);      
+      data[0].github.should.equal('zujko');
       done();
+    });     
+  });     
+});
+
+describe('eboard',function() {
+  it('should return a list of members on eboard',function(done) {
+    cshldap.eboard(function(err,data) {
+      if(err) throw err;
+      done();     
     });     
   });     
 });
