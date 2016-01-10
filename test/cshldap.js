@@ -14,20 +14,30 @@ if(isTravis) {
   var env = require('node-env-file');
 
   if (fs.existsSync('/users/u22/zujko/.env' )) {
-    console.log('EXISTS');
     env('/users/u22/zujko/.env');
     NAME = process.env.U;
     PASS = process.env.P;
   } 
 }
 
+var cshldap = CSHLDAP(NAME,PASS);
+
 describe('LDAP Bind',function() {
   it('should bind to the CSH LDAP server',function(done) {
-    var cshldap = CSHLDAP('test','test');
     cshldap.getClient().bind('uid='+NAME+','+USERS,PASS,function(err) {
       if(err) throw err;
       done();      
     });
   });      
-})
+});
+
+describe('Members',function() {
+  it('should return a list of all members',function(done) {
+    this.timeout(5000);
+    cshldap.members(function(err,data) {
+      if(err) throw err;
+      done();     
+    });    
+  });     
+});
 
