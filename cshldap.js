@@ -11,6 +11,32 @@ module.exports = function CSHLDAP(username, password) {
   });
  
   return {
+    member: function(uid,callback) {
+      var opts = {
+        filter: 'uid='+uid,
+        scope: 'sub',
+        attributes: ['*','+']
+      };
+
+      client.search(USERS,opts,function(err,res) {
+              
+        if(err) callback(err);
+        
+        var users = []; 
+        res.on('searchEntry', function(entry) {
+          users.push(entry.object);
+        });
+        res.on('searchReference', function(referral) {
+          console.log('referral: ' + referral.uris.join());
+        });
+        res.on('error', function(err) {
+          callback(err);  
+        });
+        res.on('end', function(result) {
+          callback(null,users);
+        });      
+      });
+    },  
     members: function(callback) {
       var opts = {
         filter: 'uid=*',

@@ -3,8 +3,8 @@ var fs = require('fs');
 var CSHLDAP = require('../cshldap');
 
 var isTravis = process.env.TRAVIS || false;
-var NAME = undefined;
-var PASS = undefined;
+var NAME;
+var PASS;
 var USERS = 'ou=Users,dc=csh,dc=rit,dc=edu';
 
 if(isTravis) {
@@ -41,3 +41,12 @@ describe('Members',function() {
   });     
 });
 
+describe('Member',function() {
+  it('should return a list of members matching the given uid',function(done) {
+    cshldap.member('zujko',function(err,data) {
+      if(err) throw err;
+      data.length.should.equal(1);      
+      done();
+    });     
+  });     
+});
