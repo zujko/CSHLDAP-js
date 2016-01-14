@@ -22,7 +22,7 @@
   "homepage": "https://github.com/zujko/CSHLDAP-js#readme",
   "dependencies": {
     "ldapjs": "1.0.0",
-    "bl": "1.0.0"
+    "async": "~1.5.2"
   },
   "devDependencies": {
     "chai": "^3.4.1",

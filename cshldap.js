@@ -1,4 +1,5 @@
 var ldap = require('ldapjs');
+var async = require('async');
 
 module.exports = function CSHLDAP(username, password) {
   var USERS = 'ou=Users,dc=csh,dc=rit,dc=edu';
@@ -13,7 +14,6 @@ module.exports = function CSHLDAP(username, password) {
   function search(base, opts, callback) {
     client.search(base,opts,function(err,res) {
       if(err) callback(err);
-            
       var users = []; 
       res.on('searchEntry', function(entry) {      
         users.push(entry.object);
@@ -37,9 +37,32 @@ module.exports = function CSHLDAP(username, password) {
         attributes: ['*','+']
       };
       search(COMMITTEES,opts,function(err,res) {
-        if(err) callback(err);
-        else callback(null,res); 
-      }); 
+        if(err) return callback(err);
+        else {
+          var functions = [];
+          var comm = [];
+          for(var x=1; x < res.length-1; x++) {
+            if(res[x].head instanceof Array) {
+              for(head in res[x].head) {
+                functions.push(async.apply(search,res[x].head[head].toString(),opts));
+                comm.push(res[x].cn);
+              }
+            } else {
+              functions.push(async.apply(search,res[x].head.toString(),opts));
+              comm.push(res[x].cn);
+            } 
+          }
+        }
+          async.parallel(functions,function(err, results) {
+            if(err) throw err;
+            var users = [];
+            for(var x=0; x < results.length; x++) {
+              results[x][0].committee = comm[x];
+              users.push(results[x][0]);
+            }
+            callback(null,users);
+          });     
+        }); 
     }, 
     member: function(uid,callback) {
       var opts = {
@@ -68,5 +91,4 @@ module.exports = function CSHLDAP(username, password) {
     }
   };
 };
-
 
