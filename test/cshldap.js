@@ -70,3 +70,13 @@ describe('rtps',function() {
     });     
   });     
 });
+
+describe('drinkAdmins',function() {
+  it('should return a list of all drink admins', function(done) {
+    this.timeout(5000);
+    cshldap.drinkAdmins(function(err,data) {
+      if(err) return err;
+      done();
+    });    
+  });     
+});
