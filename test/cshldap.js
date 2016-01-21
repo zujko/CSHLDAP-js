@@ -33,7 +33,7 @@ describe('LDAP Bind',function() {
 
 describe('Members',function() {
   it('should return a list of all members',function(done) {
-    this.timeout(5000);
+    this.timeout(9000);
     cshldap.members(function(err,data) {
       if(err) throw err;
       done();     
@@ -49,13 +49,21 @@ describe('Member',function() {
       data[0].github.should.equal('zujko');
       done();
     });     
-  });     
+  });
+  it('should return an empty object when a uid doesn\'t exist',function(done) {
+    cshldap.member('thisuserdoesnotexist', function(err,data) {
+      if(err) throw err;
+      data.length.should.equal(0);
+      done();     
+    });     
+  });  
 });
 
 describe('eboard',function() {
   it('should return a list of members on eboard',function(done) {
     cshldap.eboard(function(err,data) {
       if(err) throw err;
+      data.length.should.equal(9);
       done();     
     });     
   });     
@@ -76,7 +84,9 @@ describe('drinkAdmins',function() {
     this.timeout(5000);
     cshldap.drinkAdmins(function(err,data) {
       if(err) return err;
+      data.length.should.equal(19);
       done();
     });    
   });     
 });
+

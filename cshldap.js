@@ -42,13 +42,13 @@ module.exports = function CSHLDAP(username, password) {
       else {
         var functions = [];
         var comm = [];
-        var rtpBases = res[0].member;
+        var bases = res[0].member;
         var mOpts = {
           scope: 'sub',
           attributes: ['*','+']
         };
-        for(var x=0; x < rtpBases.length; x++) {
-          functions.push(async.apply(search, rtpBases[x],mOpts));
+        for(var x=0; x < bases.length; x++) {
+          functions.push(async.apply(search, bases[x],mOpts));
         }
 
         async.parallel(functions,function(err, results) {
@@ -64,6 +64,9 @@ module.exports = function CSHLDAP(username, password) {
   }
   
   return {
+    getGroupMembers: function(group, callback) {
+      searchGroup(group, callback);   
+    },
     drinkAdmins: function(callback) {
       searchGroup('drink',callback);
     }, 
@@ -80,7 +83,7 @@ module.exports = function CSHLDAP(username, password) {
         else {
           var functions = [];
           var comm = [];
-          for(var x=1; x < res.length-1; x++) {
+          for(var x=1; x < res.length; x++) {
             if(res[x].head instanceof Array) {
               for(head in res[x].head) {
                 functions.push(async.apply(search,res[x].head[head].toString(),opts));
