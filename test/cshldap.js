@@ -60,3 +60,13 @@ describe('eboard',function() {
     });     
   });     
 });
+
+describe('rtps',function() {
+  it('should return a list of all rtp\'s',function(done) {
+    this.timeout(5000);
+    cshldap.rtps(function(err,data) {
+      if(err) throw err;
+      done();     
+    });     
+  });     
+});

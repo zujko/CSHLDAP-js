@@ -31,6 +31,38 @@ module.exports = function CSHLDAP(username, password) {
   }
   
   return {
+    rtps: function(callback) {
+      var opts = {
+        filter: 'cn=rtp', 
+        scope: 'sub',
+        attributes: ['*','+']
+      }; 
+        
+      search(GROUPS, opts, function(err, res) {
+        if(err) return callback(res);       
+        else {
+          var functions = [];
+          var comm = [];
+          var rtpBases = res[0].member;
+          var mOpts = {
+            scope: 'sub',
+            attributes: ['*','+']
+          };
+          for(var x=0; x < rtpBases.length; x++) {
+            functions.push(async.apply(search, rtpBases[x],mOpts));
+          }
+
+          async.parallel(functions,function(err, results) {
+            if(err) throw err;
+            var users = [];
+            for(var x=0; x < results.length; x++) {
+              users.push(results[x][0]);     
+            }     
+            callback(null,users);
+          });  
+        }
+      });
+    },
     eboard: function(callback) {
       var opts = {
         scope: 'sub',
