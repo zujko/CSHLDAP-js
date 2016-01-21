@@ -63,6 +63,19 @@ module.exports = function CSHLDAP(username, password) {
       }
     });
   }
+
+  function searchMember(uid, callback) {
+    var id = uid || '*';
+    var opts = {
+      filter: 'uid='+id,
+      scope: 'sub',
+      attributes: ['*','+']
+    };
+    search(USERS,opts,function(err,res) {
+      if(err) callback(err);
+      else callback(null,res);     
+    });
+  }
   
   return {
     getGroupMembers: function(group, callback) {
@@ -108,26 +121,10 @@ module.exports = function CSHLDAP(username, password) {
         }); 
     }, 
     member: function(uid,callback) {
-      var opts = {
-        filter: 'uid='+uid,
-        scope: 'sub',
-        attributes: ['*','+']
-      };
-      search(USERS,opts,function(err,res) {
-        if(err) callback(err);
-        else callback(null,res);     
-      });
+      searchMember(uid,callback);
     },  
     members: function(callback) {
-      var opts = {
-        filter: 'uid=*',
-        scope: 'sub',
-        attributes: ['*','+']
-      };
-      search(USERS,opts,function(err,res) {
-        if(err) callback(err);
-        else callback(null,res);     
-      });
+      searchMember('*',callback);
     },      
     getClient: function() {
       return client;
