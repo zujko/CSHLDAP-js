@@ -40,6 +40,7 @@ module.exports = function CSHLDAP(username, password) {
     search(GROUPS, opts, function(err, res) {
       if(err) return callback(res);       
       else {
+        if(res.length === 0) return callback(null,[]);
         var functions = [];
         var comm = [];
         var bases = res[0].member;

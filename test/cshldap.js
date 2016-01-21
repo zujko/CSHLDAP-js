@@ -90,3 +90,19 @@ describe('drinkAdmins',function() {
   });     
 });
 
+describe('getGroupMembers', function() {
+  it('should return a list of all members in a group', function(done) {
+    cshldap.getGroupMembers('eval',function(err,data) {
+      if(err) throw err;
+      data.length.should.equal(5);
+      done();     
+    });     
+  });
+  it('should return an empty object if the group does not exist',function(done) {
+    cshldap.getGroupMembers('thisgroupdoesnotexist',function(err,data) {
+      if(err) throw err;
+      data.length.should.equal(0);
+      done();     
+    });       
+  })  
+});
