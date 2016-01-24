@@ -116,3 +116,15 @@ describe('getGroups', function() {
     });     
   });     
 });
+
+describe('modify',function() {
+  it('should modify user data', function(done) {
+    var mod = {
+      github: 'zujko' 
+    }
+    cshldap.modify('zujko',mod,'replace',function(err,data) {
+      if(err) throw err;
+      done();     
+    });      
+  });     
+});

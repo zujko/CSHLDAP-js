@@ -78,6 +78,17 @@ module.exports = function CSHLDAP(username, password) {
   }
   
   return {
+    modify: function(uid,mod,op,callback) {
+      var base = 'uid='+uid+',ou=Users,dc=csh,dc=rit,dc=edu'; 
+      var change = new ldap.Change({
+        operation: op,
+        modification: mod
+      });
+      client.modify(base,change, function(err,data) {
+        if(err) throw err;
+        callback(null,true);      
+      });
+    },
     getGroups: function(callback) {
       var opts = { 
         scope: 'sub',
