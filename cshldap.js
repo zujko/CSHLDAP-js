@@ -78,6 +78,20 @@ module.exports = function CSHLDAP(username, password) {
   }
   
   return {
+    getGroups: function(callback) {
+      var opts = { 
+        scope: 'sub',
+        attributes: ['*','+']
+      };
+      search(GROUPS, opts, function(err,res) {
+        if(err) throw err;
+        var groups = [];
+        for(var x=1; x < res.length; x++) {
+          groups.push(res[x].cn);
+        }
+        callback(null,groups);
+      });
+    },
     getGroupMembers: function(group, callback) {
       searchGroup(group, callback);   
     },

@@ -106,3 +106,13 @@ describe('getGroupMembers', function() {
     });       
   })  
 });
+
+describe('getGroups', function() {
+  it('should return a list of all group names', function(done) {
+    cshldap.getGroups(function(err,data) {
+      if(err) throw err;
+      
+      done();
+    });     
+  });     
+});
